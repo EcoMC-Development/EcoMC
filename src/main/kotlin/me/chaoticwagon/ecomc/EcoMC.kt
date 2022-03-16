@@ -1,8 +1,12 @@
 package me.chaoticwagon.ecomc
 
+import me.chaoticwagon.ecomc.events.ChatListener
+import me.chaoticwagon.ecomc.events.DayNightChange
 import net.minestom.server.MinecraftServer
 import net.minestom.server.coordinate.Pos
 import net.minestom.server.entity.Player
+import net.minestom.server.event.EventFilter
+import net.minestom.server.event.EventNode
 import net.minestom.server.event.GlobalEventHandler
 import net.minestom.server.event.player.PlayerLoginEvent
 import net.minestom.server.extras.MojangAuth
@@ -18,10 +22,11 @@ class EcoMC {
             // Initialization
             val minecraftServer: MinecraftServer = MinecraftServer.init()
             val instanceManager: InstanceManager = MinecraftServer.getInstanceManager()
+
             // Create the instance
             val instanceContainer: InstanceContainer = instanceManager.createInstanceContainer()
-            // Set the ChunkGenerator
             instanceContainer.chunkGenerator = GeneratorDemo()
+            instanceContainer.timeRate = 0 // Stop default time
             MojangAuth.init()
 
             // Add an event callback to specify the spawning instance (and the spawn position)
@@ -35,40 +40,19 @@ class EcoMC {
             // Start the server on port 25565
             minecraftServer.start("0.0.0.0", 25565)
 
-            val dayCycle = DayCycle(instanceContainer)
+            // Events
+            val globalEventNode = MinecraftServer.getGlobalEventHandler()
 
+            val instanceEventNode = EventNode.type("instance-listener", EventFilter.INSTANCE)
+            val playerEventNode = EventNode.type("player-listener", EventFilter.PLAYER)
 
+            instanceEventNode.addListener(DayNightChange()) // Day cycle listener.
+            playerEventNode.addListener(ChatListener()) // Chat listener.
 
+            globalEventNode.addChild(instanceEventNode)
+            globalEventNode.addChild(playerEventNode)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            val dayCycle = DayCycle(instanceContainer, instanceEventNode) // Automatically starts the day cycle.
         }
     }
 

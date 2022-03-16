@@ -22,7 +22,7 @@ dependencies {
 
 tasks {
     shadowJar{
-        destinationDirectory.set(file("C:\\Users\\natha\\Documents\\MINESTOM\\EcoMC"))
+        destinationDirectory.set(file("C:\\poo")) // haha LOL!
         manifest {
             attributes (
                 "Main-Class" to "me.chaoticwagon.ecomc.EcoMC",
