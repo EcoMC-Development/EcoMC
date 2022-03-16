@@ -12,12 +12,14 @@ import net.minestom.server.timer.TaskSchedule
 import java.time.Duration
 
 class DayCycle(private val world: InstanceContainer, private val eventNode: EventNode<InstanceEvent>) {
-    init {
-        start()
-    }
+    private var isRunning = false
 
-    private fun start(){
+    fun start(){
+        if(isRunning) return
+
+        isRunning = true
         var isDay = true
+
         val schedulerManager = MinecraftServer.getSchedulerManager()
         schedulerManager.scheduleTask(
             {
@@ -36,7 +38,7 @@ class DayCycle(private val world: InstanceContainer, private val eventNode: Even
                 }
             },
             TaskSchedule.duration(Duration.ofMillis(50)), // 50ms = 1 tick
-            TaskSchedule.duration(Duration.ofSeconds(50))
+            TaskSchedule.duration(Duration.ofMillis(50))
         )
     }
 

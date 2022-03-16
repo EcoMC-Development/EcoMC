@@ -52,7 +52,8 @@ class EcoMC {
             globalEventNode.addChild(instanceEventNode)
             globalEventNode.addChild(playerEventNode)
 
-            val dayCycle = DayCycle(instanceContainer, instanceEventNode) // Automatically starts the day cycle.
+            val dayCycle = DayCycle(instanceContainer, instanceEventNode)
+            dayCycle.start() // poo ( you )
         }
     }
 
