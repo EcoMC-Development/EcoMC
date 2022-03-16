@@ -1,5 +1,7 @@
 package me.chaoticwagon.ecomc
 
+import me.chaoticwagon.ecomc.Constants.Companion.DAY_SUNRISE
+import me.chaoticwagon.ecomc.Constants.Companion.DAY_SUNSET
 import me.chaoticwagon.ecomc.events.custom.DayNightChangeEvent
 import net.minestom.server.MinecraftServer
 import net.minestom.server.event.EventNode
@@ -25,10 +27,10 @@ class DayCycle(private val world: InstanceContainer, private val eventNode: Even
                     world.time = 0
                 }
 
-                if (world.time in 13000..22999 && isDay) { // extra checks cuz sunset and sunrise aren't exactly 12000, and 24000
+                if (world.time in DAY_SUNSET until DAY_SUNRISE && isDay) { // extra checks cuz sunset and sunrise aren't exactly 12000, and 24000. Basically redefine day/night
                     isDay = false
                     eventNode.call(DayNightChangeEvent(world, DayNightChangeEvent.DayTime.NIGHT))
-                } else if (world.time >= 23000 && !isDay) {
+                } else if (world.time >= DAY_SUNRISE && !isDay) {
                     isDay = true
                     eventNode.call(DayNightChangeEvent(world, DayNightChangeEvent.DayTime.DAY))
                 }
@@ -40,7 +42,7 @@ class DayCycle(private val world: InstanceContainer, private val eventNode: Even
 
     companion object {
         val Instance.isDay: Boolean
-            get() = time < 13000
+            get() = time < DAY_SUNSET
         val Instance.dayTime: DayNightChangeEvent.DayTime
             get() = if (isDay) DayNightChangeEvent.DayTime.DAY else DayNightChangeEvent.DayTime.NIGHT
     }
