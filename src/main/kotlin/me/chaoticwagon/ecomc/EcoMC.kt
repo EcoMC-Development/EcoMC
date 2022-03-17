@@ -1,9 +1,7 @@
 package me.chaoticwagon.ecomc
 
 import me.chaoticwagon.ecomc.claiming.ClaimHandler
-import me.chaoticwagon.ecomc.events.ChatListener
-import me.chaoticwagon.ecomc.events.DayNightChange
-import me.chaoticwagon.ecomc.events.PlayerInteractAtBlock
+import me.chaoticwagon.ecomc.events.*
 import net.minestom.server.MinecraftServer
 import net.minestom.server.coordinate.Pos
 import net.minestom.server.entity.Player
@@ -54,6 +52,8 @@ class EcoMC {
             instanceEventNode.addListener(DayNightChange()) // Day cycle listener.
             playerEventNode.addListener(ChatListener()) // Chat listener.
             playerEventNode.addListener(PlayerInteractAtBlock(claimHandler)) // Player interact at block listener.
+            playerEventNode.addListener(BlockPlaceEvent(claimHandler)) // Block place listener.
+            playerEventNode.addListener(BlockBreakEvent(claimHandler)) // Block break listener.
 
             globalEventNode.addChild(instanceEventNode)
             globalEventNode.addChild(playerEventNode)

@@ -31,4 +31,9 @@ class ClaimHandler {
             return
         }
     }
+
+    fun isOwner(player: Player, chunk: Chunk): Boolean {
+        val chunkOwner = chunk.getTag(Tag.String("chunk-owner")) ?: ""
+        return chunkOwner == player.uuid.toString()
+    }
 }
