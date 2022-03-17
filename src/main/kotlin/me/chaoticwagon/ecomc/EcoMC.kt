@@ -1,7 +1,9 @@
 package me.chaoticwagon.ecomc
 
+import me.chaoticwagon.ecomc.claiming.ClaimHandler
 import me.chaoticwagon.ecomc.events.ChatListener
 import me.chaoticwagon.ecomc.events.DayNightChange
+import me.chaoticwagon.ecomc.events.PlayerInteractAtBlock
 import net.minestom.server.MinecraftServer
 import net.minestom.server.coordinate.Pos
 import net.minestom.server.entity.Player
@@ -40,6 +42,9 @@ class EcoMC {
             // Start the server on port 25565
             minecraftServer.start("0.0.0.0", 25565)
 
+            val claimHandler = ClaimHandler()
+
+
             // Events
             val globalEventNode = MinecraftServer.getGlobalEventHandler()
 
@@ -48,12 +53,15 @@ class EcoMC {
 
             instanceEventNode.addListener(DayNightChange()) // Day cycle listener.
             playerEventNode.addListener(ChatListener()) // Chat listener.
+            playerEventNode.addListener(PlayerInteractAtBlock(claimHandler)) // Player interact at block listener.
 
             globalEventNode.addChild(instanceEventNode)
             globalEventNode.addChild(playerEventNode)
 
             val dayCycle = DayCycle(instanceContainer, instanceEventNode)
             dayCycle.start() // poo ( you )
+
+
         }
     }
 
