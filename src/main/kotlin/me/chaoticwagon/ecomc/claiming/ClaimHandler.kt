@@ -1,6 +1,6 @@
 package me.chaoticwagon.ecomc.claiming
 
-import net.kyori.adventure.text.Component
+import me.chaoticwagon.ecomc.formatMinimessage
 import net.minestom.server.entity.Player
 import net.minestom.server.instance.Chunk
 import net.minestom.server.tag.Tag
@@ -8,16 +8,27 @@ import net.minestom.server.tag.Tag
 class ClaimHandler {
 
     fun handleClaim(player: Player, chunk: Chunk) {
-        val chunkOwner = chunk.getTag(Tag.String("chunk-owner")) ?: {
+        val chunkOwner = chunk.getTag(Tag.String("chunk-owner")) ?: ""
+
+        if (chunkOwner.isEmpty()){
             chunk.setTag(Tag.String("chunk-owner"), player.uuid.toString())
+            player.sendMessage(
+                "<green>You claimed this chunk!".formatMinimessage()
+            )
+            return
         }
 
         if (chunkOwner != player.uuid.toString()){
-            player.sendMessage(Component.text("This land is already claimed"))
+            player.sendMessage(
+                "<red>This chunk is already claimed!".formatMinimessage()
+            )
+            return
         }
         if (chunkOwner == player.uuid.toString()){
-            player.sendMessage(Component.text("You have already claimed this land"))
+            player.sendMessage(
+                "<green>You already own this chunk!".formatMinimessage()
+            )
+            return
         }
     }
-
 }
