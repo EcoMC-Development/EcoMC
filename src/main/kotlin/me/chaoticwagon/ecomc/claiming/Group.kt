@@ -6,7 +6,7 @@ import net.kyori.adventure.text.Component
 import net.minestom.server.entity.Player
 import java.util.*
 
-class Group (val owner: Player, var name: String){
+class Group (var owner: Player, var name: String){
 
     val uuid: UUID = UUID.randomUUID()
 

@@ -74,6 +74,13 @@ class GroupChatListener: EventListener<PlayerChatEvent> {
             }
 
             if (args[1] == "leave"){
+                if (sender == sender.group.owner){
+                    sender.sendMessage(
+                        "<red>You can't leave your own group. Transfer ownership to another person to leave.".formatMinimessage()
+                    )
+                    return EventListener.Result.SUCCESS
+                }
+
                 sender.group.broadcast(
                     "<aqua>${sender.username} <white>has left the group.".formatMinimessage()
                 )
@@ -83,20 +90,36 @@ class GroupChatListener: EventListener<PlayerChatEvent> {
 
             if (args[1] == "kick"){
                 val target: Player = event.player.instance!!.players.find { it.name == Component.text(args[2])}!!
-                sender.group.broadcast(
-                    "<aqua>${sender.username} <white>has kicked ${args[2]} from the group.".formatMinimessage()
-                )
-                sender.group.removeMember(target)
-                return EventListener.Result.SUCCESS
+                if (sender == sender.group.owner){
+                    sender.group.broadcast(
+                        "<aqua>${sender.username} <white>has kicked ${args[2]} from the group.".formatMinimessage()
+                    )
+                    sender.group.removeMember(target)
+                    return EventListener.Result.SUCCESS
+                }else{
+                    sender.sendMessage(
+                        "<red>You can't kick people from a group you don't own.".formatMinimessage()
+                    )
+                    return EventListener.Result.SUCCESS
+                }
+
             }
 
             if (args[1] == "rename"){
-                val newName = args.drop(2).joinToString(" ")
-                sender.group.name = newName
-                sender.group.broadcast(
-                    "<aqua>${sender.username} <white>has renamed the group to $newName.".formatMinimessage()
-                )
-                return EventListener.Result.SUCCESS
+                if (sender == sender.group.owner){
+                    val newName = args.drop(2).joinToString(" ")
+                    sender.group.name = newName
+                    sender.group.broadcast(
+                        "<aqua>${sender.username} <white>has renamed the group to $newName.".formatMinimessage()
+                    )
+                    return EventListener.Result.SUCCESS
+                }else{
+                    sender.sendMessage(
+                        "<red>You must be the owner of the group to rename it.".formatMinimessage()
+                    )
+                    return EventListener.Result.SUCCESS
+                }
+
             }
 
             if (args[1] == "info"){
@@ -110,6 +133,22 @@ class GroupChatListener: EventListener<PlayerChatEvent> {
                     "<aqua>Group members: ${sender.group.members.joinToString(", ") { it.username }}".formatMinimessage()
                 )
                 return EventListener.Result.SUCCESS
+            }
+
+            if (args[1] == "transfer"){
+                val target: Player = event.player.instance!!.players.find { it.name == Component.text(args[2])}!!
+                if (sender == sender.group.owner){
+                    sender.group.owner = target
+                    sender.group.broadcast(
+                        "<aqua>${sender.username} <white>has transferred ownership to ${target.username}.".formatMinimessage()
+                    )
+                    return EventListener.Result.SUCCESS
+                }else{
+                    sender.sendMessage(
+                        "<red>You must be the owner of the group to transfer ownership.".formatMinimessage()
+                    )
+                    return EventListener.Result.SUCCESS
+                }
             }
 
         }
