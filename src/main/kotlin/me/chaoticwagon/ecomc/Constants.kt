@@ -8,5 +8,7 @@ class Constants {
         val DAY_SUNSET = 13000
         @JvmStatic
         val DAY_SUNRISE = 23000
+        @JvmStatic
+        val GROUP_SIZE = 3
     }
 }

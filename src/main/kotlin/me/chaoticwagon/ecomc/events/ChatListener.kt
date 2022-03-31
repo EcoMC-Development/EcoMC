@@ -14,6 +14,7 @@ class ChatListener: EventListener<PlayerChatEvent> {
 
     override fun run(event: PlayerChatEvent): EventListener.Result {
         val message = event.message
+
         if(message.startsWith("sus")){
             val args = message.split(" ").reversed().dropLast(1).reversed()
             println(args[0])
@@ -31,4 +32,5 @@ class ChatListener: EventListener<PlayerChatEvent> {
 
         return EventListener.Result.SUCCESS
     }
+
 }
