@@ -1,5 +1,7 @@
 package me.chaoticwagon.ecomc
 
+import me.chaoticwagon.ecomc.claiming.Group
+
 class Constants {
     companion object{
         @JvmStatic
@@ -10,5 +12,7 @@ class Constants {
         val DAY_SUNRISE = 23000
         @JvmStatic
         val GROUP_SIZE = 3
+        @JvmStatic
+        val PLAYER_CLAIM_MAX = 5
     }
 }

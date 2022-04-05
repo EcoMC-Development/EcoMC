@@ -51,7 +51,7 @@ class EcoMC {
 
             instanceEventNode.addListener(DayNightChange()) // Day cycle listener.
             playerEventNode.addListener(ChatListener()) // Chat listener.
-            playerEventNode.addListener(GroupChatListener()) // Group chat listener.
+            playerEventNode.addListener(GroupChatListener(claimHandler)) // Group chat listener.
             playerEventNode.addListener(PlayerInteractAtBlock(claimHandler)) // Player interact at block listener.
             playerEventNode.addListener(BlockPlaceEvent(claimHandler)) // Block place listener.
             playerEventNode.addListener(BlockBreakEvent(claimHandler)) // Block break listener.
