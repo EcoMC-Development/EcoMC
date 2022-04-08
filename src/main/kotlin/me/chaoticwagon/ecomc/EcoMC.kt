@@ -1,6 +1,7 @@
 package me.chaoticwagon.ecomc
 
 import me.chaoticwagon.ecomc.claiming.ClaimHandler
+import me.chaoticwagon.ecomc.commands.GroupCommand
 import me.chaoticwagon.ecomc.events.*
 import net.minestom.server.MinecraftServer
 import net.minestom.server.coordinate.Pos
@@ -58,6 +59,10 @@ class EcoMC {
 
             globalEventNode.addChild(instanceEventNode)
             globalEventNode.addChild(playerEventNode)
+
+            // Commands
+            val commandManager = MinecraftServer.getCommandManager()
+            commandManager.register(GroupCommand(claimHandler))
 
             val dayCycle = DayCycle(instanceContainer, instanceEventNode)
             dayCycle.start() // poo ( you )

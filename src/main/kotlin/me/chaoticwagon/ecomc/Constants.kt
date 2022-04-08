@@ -1,7 +1,5 @@
 package me.chaoticwagon.ecomc
 
-import me.chaoticwagon.ecomc.claiming.Group
-
 class Constants {
     companion object{
         @JvmStatic

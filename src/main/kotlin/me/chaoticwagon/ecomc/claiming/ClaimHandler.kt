@@ -11,7 +11,6 @@ import net.minestom.server.item.ItemStack
 import net.minestom.server.item.Material
 import net.minestom.server.tag.Tag
 import java.util.*
-import kotlin.collections.HashMap
 
 class ClaimHandler {
 
